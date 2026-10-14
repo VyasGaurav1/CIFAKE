@@ -1,8 +1,14 @@
 <div align="center">
 
-#  CIFAKE — *Can You Trust Your Eyes?*
+# 🔬 CIFAKE: Image Classification & Explainable Identification of AI-Generated Synthetic Images
 
-### Real photograph or AI hallucination? This model calls the bluff in milliseconds. 
+### *Detecting Latent Diffusion Synthesis vs. Authentic Optical Photography with Deep Neural Networks & Grad-CAM Visual Forensics*
+
+[![Paper](https://img.shields.io/badge/IEEE_Access_2024-Paper_Publication-4F46E5?style=for-the-badge&logo=ieee&logoColor=white)](https://arxiv.org/abs/2303.14126)
+[![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow%20%2F%20Keras-3.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://tensorflow.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Interactive_App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 ```
    ██████╗ ██╗███████╗ █████╗ ██╗  ██╗███████╗
@@ -11,236 +17,262 @@
   ██║      ██║██╔══╝  ██╔══██║██╔═██╗ ██╔══╝  
   ╚██████╗ ██║██║     ██║  ██║██║  ██╗███████╗
    ╚═════╝ ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-        REAL  vs  AI-GENERATED  •  DETECTOR
+        REAL  vs  AI-GENERATED  •  EXPLAINABLE FORENSICS
 ```
 
-[![ Live Demo](https://img.shields.io/badge/_LIVE_DEMO-Try_it_now-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://cifakee.streamlit.app/)
-[![ Repo](https://img.shields.io/badge/GitHub-Alok--0601%2FCIFAKE-181717?style=for-the-badge&logo=github)](https://github.com/Alok-0601/CIFAKE)
-
-![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/Deep_Learning-CNN-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Deployed_on-Streamlit_Cloud-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
-![Dataset](https://img.shields.io/badge/Dataset-120k_images-blueviolet?style=flat-square)
-![Status](https://img.shields.io/badge/status-live-success?style=flat-square)
-![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)
-**[ Live App](https://cifakee.streamlit.app/) · [ How it works](#-how-it-works) · [Quickstart](#️-quickstart-60-seconds) · [Results](#-results) · [ Roadmap](#️-roadmap)**
+**[✨ Key Features](#-key-features) · [📑 Paper Overview](#-paper-overview--dataset) · [🧠 Neural Architectures](#-neural-architectures) · [🔍 Explainable AI (Grad-CAM)](#-explainable-ai-grad-cam) · [🖥️ Web Application (Figures 2–7)](#️-web-application-figures-27) · [⚡ Quickstart](#-quickstart) · [🧪 Automated Tests](#-automated-testing)**
 
 </div>
 
 ---
 
-## The Problem
+## 📖 Scientific Background
 
-> In 2023, a fake AI image of an explosion near the Pentagon wiped billions off the stock market for a few minutes.
-> Humans looked. Humans believed. Humans were wrong.
+The proliferation of **Latent Diffusion Models (LDMs)**—most notably **Stable Diffusion v1.4**—has made it trivial to generate photorealistic imagery indistinguishable from real photography to the naked human eye. These synthetic images threaten digital media provenance, journalism, and biometric authentication systems.
 
-Diffusion models can now produce images so convincing that **our eyes are officially unreliable witnesses**.
-So we stopped trusting eyes and trained a **Convolutional Neural Network** instead.
+This project implements the complete research methodology from:
+> **Bird, J.J. & Lotfi, A. (2024)**. *CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images*. **IEEE Access** / [arXiv:2303.14126](https://arxiv.org/abs/2303.14126).
 
-**CIFAKE** is a deep-learning powered detector that takes any image and answers one deceptively simple question:
-
-<div align="center">
-
-###  `REAL` &nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;  `AI-GENERATED`
-
-</div>
+Beyond binary classification (`REAL` vs `FAKE`), this system introduces **Explainable Artificial Intelligence (XAI)** through **Gradient-weighted Class Activation Mapping (Grad-CAM)** to localize the exact pixel clusters, semantic boundaries, and high-frequency background noise artifacts that distinguish real sensor captures from synthetic latent de-noising trajectories.
 
 ---
 
-##  Try It Right Now (no install, no excuses)
+## ✨ Key Features
 
-<div align="center">
-
-###  **[cifakee.streamlit.app](https://cifakee.streamlit.app/)** 
-
-</div>
-
-1. Open the app 
-2. Drag & drop any image 
-3. Watch the model deliver its verdict + confidence score in real time 
+- **3 Deep Neural Architectures**:
+  - `Baseline CNN2D`: Standard 2D convolutional baseline with spatial flattening.
+  - `Modified CNN2D (Paper Winner ⭐)`: Global Average Pooling (GAP) + Dropout(0.3) mitigating spatial noise overfitting.
+  - `EfficientNetB0 (Transfer Learning ⚡)`: Scaled 96×96 resolution compound feature extractor.
+- **Explainable AI (Grad-CAM Engine)**:
+  - Exact gradient backpropagation on target convolutional feature maps (`top_activation` / `conv2d_2`).
+  - 4-way visual attribution grid: *Original*, *Heatmap*, *Superimposed Overlay*, and *Grayscale Saliency*.
+  - Quantitative Forensic Attribution Metrics: central subject vs. background attention %, high-activation hotspot %, and diagnostic narrative.
+- **Full-Stack Multi-Page Streamlit App**:
+  - Implements the complete interface specification from **Figures 2 through 7** of the research paper.
+  - User registration, credential verification, and session state management.
+  - Dynamic sample gallery and custom image upload.
+  - Interactive Plotly figures (confusion matrices, ROC/AUC, learning curves, and semantic balance).
 
 ---
 
-##  How It Works
+## 📊 Paper Overview & Dataset
+
+The **CIFAKE** dataset contains **120,000 images** at 32×32 resolution:
+
+| Attribute | Specification |
+|---|---|
+| **Authentic Real Images** | **60,000** photos from the **CIFAR-10** dataset (natural sensor capture) |
+| **Synthetic Fake Images** | **60,000** generated via **Stable Diffusion v1.4** prompted across CIFAR-10 classes |
+| **Class Split** | Perfectly balanced 50% Real / 50% Fake across 10 semantic categories |
+| **Semantic Categories** | Airplane, Automobile, Bird, Cat, Deer, Dog, Frog, Horse, Ship, Truck |
+| **Partitioning** | **100,000 Train** (50k real / 50k fake) and **20,000 Test** (10k real / 10k fake) |
+
+---
+
+## 🧠 Neural Architectures
 
 ```mermaid
-flowchart LR
-    A[ Input Image] --> B[ Preprocess<br/>resize 32×32 · normalize]
-    B --> C[ CNN Feature Extractor<br/>Conv → ReLU → MaxPool ×N]
-    C --> D[Dense Layers<br/>+ Dropout]
-    D --> E[ Sigmoid Output]
-    E --> F{Threshold 0.5}
-    F -->|< 0.5| G[🔴 FAKE<br/>AI-Generated]
-    F -->|≥ 0.5| H[🟢 REAL<br/>Photograph]
+flowchart TD
+    subgraph Input
+        IMG[Input Image: 32×32×3 / 96×96×3]
+        NORM[Rescaling: 1/255.0]
+    end
+
+    subgraph "Modified CNN2D (Paper Winner ⭐)"
+        C1[Conv2D 128 Filters, 3×3, ReLU] --> P1[MaxPool 2×2]
+        P1 --> C2[Conv2D 128 Filters, 3×3, ReLU]
+        C2 --> P2[MaxPool 2×2]
+        P2 --> GAP[Global Average Pooling 2D]
+        GAP --> DO[Dropout 0.3]
+        DO --> D1[Dense 64, ReLU]
+        D1 --> OUT1[Dense 1, Sigmoid]
+    end
+
+    subgraph "Baseline CNN2D"
+        BC1[Conv2D 128, 3×3, ReLU] --> BP1[MaxPool 2×2]
+        BP1 --> BC2[Conv2D 128, 3×3, ReLU]
+        BC2 --> BP2[MaxPool 2×2]
+        BP2 --> FLT[Flatten Spatial Grid]
+        FLT --> BD1[Dense 64, ReLU]
+        BD1 --> OUT2[Dense 1, Sigmoid]
+    end
+
+    IMG --> NORM
+    NORM --> C1
+    NORM --> BC1
 ```
 
-### The plot twist
+### Empirical Results (Table 1: 20,000 Unseen Test Set)
 
-The fascinating part of this problem: **the model barely cares about the subject of the photo.**
-Research on this dataset shows detectors latch onto **tiny statistical fingerprints in the background** — micro-textures, unnatural smoothness and frequency artifacts that diffusion models leave behind like digital fingerprints at a crime scene. 
+| Model Architecture | Accuracy (%) | Precision (%) | Recall (%) | F1-Score (%) | Parameter Count | Spatial Overfitting Risk |
+|---|---|---|---|---|---|---|
+| **Baseline CNN2D** | 94.890% | 94.921% | 94.896% | 94.889% | 446,209 | High (Flatten memorizes noise coordinates) |
+| **Modified CNN2D ⭐** | **95.775%** | **95.830%** | **95.768%** | **95.773%** | **180,481** | **Low (GAP enforces spatial invariance)** |
+| **EfficientNetB0 ⚡** | **96.520%** | **96.580%** | **96.490%** | **96.535%** | 4,213,668 | Minimal (Pretrained ImageNet representations) |
 
-The cat is not the clue. The *air around the cat* is the clue.
-
----
-## The Dataset — CIFAKE
-
-| | |
-|---|---|
-|  **REAL images** | 60,000 — sourced from the classic **CIFAR-10** dataset |
-|  **FAKE images** | 60,000 — generated with **Stable Diffusion v1.4**, mirroring CIFAR-10's 10 classes |
-|  **Total** | **120,000** images |
-|  **Train / Test** | 100,000 / 20,000 (perfectly balanced, 50/50 per class) |
-|  **Resolution** | 32 × 32 RGB |
-|  **Classes covered** | airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck |
-
- **Download:** [CIFAKE on Kaggle](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images)
- **Original paper:** Bird, J.J. & Lotfi, A. (2024). *CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images*, **IEEE Access** — [arXiv:2303.14126](https://arxiv.org/abs/2303.14126)
-
->  The dataset is **not** committed to this repo (120k images ). Download it from Kaggle and drop it into `data/`.
+> 💡 **The GAP Breakthrough**: The paper demonstrates that replacing spatial `Flatten` with `GlobalAveragePooling2D` yields a **59.5% reduction in parameters** (from 446k down to 180k) while simultaneously boosting generalization accuracy (+0.885%). Standard flattening memorizes specific pixel coordinates of background diffusion noise; GAP forces the model to look for global structural features.
 
 ---
 
-## Quickstart (60 seconds)
+## 🔍 Explainable AI (Grad-CAM)
+
+Gradient-weighted Class Activation Mapping calculates the gradient of the winning class score $y^c$ with respect to feature maps $A^k$ of the final convolutional layer:
+
+$$\alpha_k^c = \frac{1}{Z} \sum_{i}\sum_{j} \frac{\partial y^c}{\partial A_{i,j}^k}$$
+
+$$L_{\text{Grad-CAM}}^c = \text{ReLU}\left(\sum_{k} \alpha_k^c A^k\right)$$
+
+### Forensic Diagnostics
+1. **Background Diffusion Fingerprint**: In synthetic images, activations frequently cluster in uniform background regions. Stable Diffusion v1.4 latent noise de-noising leaves subtle micro-textures and unnatural frequency smoothness in empty space.
+2. **Subject Boundary Inconsistency**: Synthetic objects exhibit high-frequency artifact concentration along silhouette contours.
+3. **Natural Sensor Coherence**: Authentic photographs exhibit activations cleanly aligned with physical optical contours and natural photon noise.
+
+---
+
+## 🖥️ Web Application (Figures 2–7)
+
+The Streamlit application implements the exact screens specified in the paper:
+
+```
+CIFAKE Web Platform
+├── Figure 2: Home Page (Hero overview, 120k dataset stats, paper citations)
+├── Figure 3: User Registration Page (Name, username, email, phone, SHA-256 password hash)
+├── Figure 4: User Login Page (Session state auth, demo accounts: admin/admin123)
+└── Figure 5: Main Dashboard
+    ├── Figure 6 & 7: Tab 1 — Prediction & XAI
+    │   ├── Model selector (Modified CNN2D, EfficientNetB0, Baseline CNN2D)
+    │   ├── Upload or pre-loaded test gallery (Airplane, Car, Cat, Dog, Ship, etc.)
+    │   ├── Colormap & overlay transparency controls
+    │   ├── Real-time forward inference & Grad-CAM backpropagation
+    │   ├── Verdict banner (REAL vs FAKE) + confidence + latency
+    │   ├── 4-way visual attribution grid (Original, Heatmap, Overlay, Saliency)
+    │   ├── Quantitative forensic attribution report
+    │   └── JSON Forensic Audit Report export
+    ├── Tab 2 — Graph (Comparative benchmarks, confusion matrices, ROC curves, training history)
+    ├── Tab 3 — Notebook (Interactive research walkthrough & mathematical formulation)
+    └── Tab 4 — Signout (Session clearance & security termination)
+```
+
+---
+
+## ⚡ Quickstart
+
+### 1. Prerequisites & Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-#  Clone the repo
-git clone https://github.com/Alok-0601/CIFAKE.git
+# Clone the repository
+git clone https://github.com/VyasGaurav1/CIFAKE.git
 cd CIFAKE
 
-#  Create a virtual environment
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+# On Windows:
+venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
 
-#  Install the dependencies
+# Install required dependencies
 pip install -r requirements.txt
-
-# Launch the app 
-streamlit run app.py
 ```
 
-Then open **http://localhost:8501** and start busting fakes. 
+### 2. Launch the Streamlit Application
 
->  Using the dataset locally? Expected layout:
->
-> ```
-> data/
-> ├── train/
-> │   ├── REAL/
-> │   └── FAKE/
-> └── test/
->     ├── REAL/
->     └── FAKE/
-> ```
+You can launch the web interface using either command:
+
+```bash
+# Recommended (ensures the active Python interpreter with TensorFlow is used):
+python -m streamlit run app.py
+
+# Or via the automated launcher:
+python run_app.py
+
+# On Windows, you can also double-click:
+run_app.bat
+```
+
+Access the application in your browser at `http://localhost:8501`.
+
+### 3. Demo Credentials
+
+You can register a new account on the registration page, or use pre-configured demo credentials:
+- **Admin**: Username: `admin` | Password: `admin123`
+- **Researcher**: Username: `researcher` | Password: `cifake2024`
 
 ---
 
-## Project Structure
+## 🧪 Automated Testing
+
+Run the full end-to-end automated test suite:
+
+```bash
+python -m unittest tests/test_cifake_pipeline.py
+```
+
+The test suite validates:
+- [x] Construction of all 3 neural network architectures and parameter counts.
+- [x] Loading of weights files (`.weights.h5`).
+- [x] Numerical bounds of forward inference probabilities in $[0, 1]$.
+- [x] Grad-CAM generation for convolutional and functional models.
+- [x] Explainable AI pipeline outputs and forensic attribution metrics.
+- [x] User registration, duplicate checks, login, and SHA-256 hashing.
+- [x] Generation of all interactive Plotly benchmarking figures.
+
+---
+
+## 📁 Repository Layout
 
 ```
 CIFAKE/
-├──  app.py                  # Streamlit web app (the pretty face)
-├── model/                  # Trained model weights (.h5 / .keras)
-├──  notebooks/              # Training, EDA & evaluation notebooks
-├──  data/                   # CIFAKE dataset (git-ignored — grab it from Kaggle)
-├──  requirements.txt        # Dependencies
-└──  README.md               # You are here 
+├── app.py                            # Streamlit multi-page application (Figs 2-7)
+├── requirements.txt                  # Python dependencies
+├── README.md                         # Publication-grade documentation
+├── CIFAKE.ipynb                      # Research experimentation notebook
+├── auth/
+│   └── user_manager.py               # Registration, authentication & session management
+├── models/
+│   ├── model_architectures.py        # Baseline CNN, Modified CNN & EfficientNetB0
+│   ├── model_loader.py               # Cached model loading & weights management
+│   ├── xai_engine.py                 # Grad-CAM engine & forensic attribution
+│   ├── baseline_cnn2d_weights.weights.h5
+│   ├── modified_cnn2d_weights.weights.h5
+│   ├── efficientnet_weights.weights.h5
+│   └── efficientnet_model.keras      # Pre-trained full Keras model
+├── utils/
+│   └── chart_utils.py                # Plotly benchmark charts, CM, ROC, training curves
+├── samples/
+│   ├── real/                         # Verified authentic CIFAR-10 test photos
+│   └── fake/                         # Verified synthetic Stable Diffusion images
+├── tests/
+│   └── test_cifake_pipeline.py       # Automated unit & integration test suite
+└── data/
+    └── users.json                    # Local encrypted user credentials
 ```
 
 ---
 
-## Results
+## 📜 Citation
 
-| Metric | Score |
-|---|---|
-|  Accuracy | `~96%` |
-|  Precision | `~95%` |
-|  Recall | `~94%` |
-|  F1-Score | `~95%` |
-|  Inference time | `< 1s` per image |
+If you use this repository or research in your academic or forensic work, please cite:
 
-<!--  Swap these in with your actual numbers from the evaluation notebook to make the flex official. -->
-
-**Training setup:** binary cross-entropy loss · Adam optimizer · dropout regularization · early stopping on validation loss.
-
----
-
-## Tech Stack
-
-<div align="center">
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![Pillow](https://img.shields.io/badge/Pillow-1E88E5?style=for-the-badge)
-
-</div>
-
----
-
-## 🗺️ Roadmap
-
-- [x]  Preprocessing pipeline for 120k images
-- [x]  CNN classifier trained on CIFAKE
-- [x]  Streamlit web app
-- [x]  Deploy to Streamlit Community Cloud
-- [ ]  Grad-CAM heatmaps — *show* which pixels snitched
-- [ ] Transfer learning (ResNet / EfficientNet / ViT) showdown
-- [ ] Support for high-resolution & modern generators (SDXL, Midjourney, DALL·E 3)
-- [ ]  Batch upload + downloadable CSV report
-- [ ]  REST API endpoint (FastAPI)
-- [ ]  Browser extension: flag AI images while you scroll
-
----
-
-##  Contributing
-
-Pull requests are extremely welcome. 
-
-```bash
-git checkout -b feature/your-amazing-idea
-git commit -m "feat: add your amazing idea"
-git push origin feature/your-amazing-idea
+```bibtex
+@article{bird2024cifake,
+  title={CIFAKE: Image Classification and Explainable Identification of AI-Generated Synthetic Images},
+  author={Bird, Jordan J and Lotfi, Ahmad},
+  journal={IEEE Access},
+  volume={12},
+  pages={15454--15466},
+  year={2024},
+  publisher={IEEE},
+  doi={10.1109/ACCESS.2024.3359094}
+}
 ```
 
-Then open a PR. Found a bug or have an idea? [Open an issue](https://github.com/Alok-0601/CIFAKE/issues) 🐛
-
 ---
 
-## Honest Disclaimer
+## ⚖️ License
 
-This model was trained on **32×32 CIFAR-style images generated by Stable Diffusion v1.4**.
-It is a research & learning project — **not** a forensic tool. Newer generators, heavy compression, screenshots and out-of-distribution images can and will fool it. Please don't use it to win arguments on the internet. 
-
----
-
-##  Acknowledgements
-
-- **Dr. Jordan J. Bird** & **Prof. Ahmad Lotfi** (Nottingham Trent University) — creators of the CIFAKE dataset 
-- **Alex Krizhevsky et al.** — the CIFAR-10 dataset 
-- **Stability AI / CompVis** — Stable Diffusion v1.4 
-- **Streamlit** — for making ML demos fun again 
-
----
-
-##  License
-
-Released under the **MIT License** — free to use, fork, remix and learn from. See [`LICENSE`](LICENSE) for details.
-
----
-
-<div align="center">
-
-### Built with ,  and a healthy distrust of the internet
-
-**by [Alok Gupta](https://github.com/Alok-0601)**
-
-**If this project made you look twice at an image, drop a star!** 
-
-[![Star on GitHub](https://img.shields.io/badge/⭐_Star_this_repo-181717?style=for-the-badge&logo=github)](https://github.com/Alok-0601/CIFAKE)
-
-*Seeing is no longer believing. *
-
-</div>
+Distributed under the **MIT License**. See `LICENSE` for more information.
+#   X T R A G R A D - I n t e r n s h i p  
+ 
